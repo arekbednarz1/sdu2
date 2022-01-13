@@ -7,6 +7,27 @@
 
 public class CreateOffer_Handler {
  
+    
+    /**
+     * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
+     * @date 29/12/2021
+     * @description method adding Salon__c to Vehicle__c with no salon .
+     * @param inOffers - entry list from trigger
+     */
+    public static void updateSalonOffer(List<Offer__c> inOffers){
+        if(inOffers!=null || !inOffers.isEmpty()){
+            for(Offer__c offerToAdd : inOffers){
+                if(Constants.PHYSICAL_OFFER.equals(offerToAdd.Offer_type__c)){
+               	Id vehicleToAddId = offerToAdd.Vehicle__c;
+               	Vehicle__c vehicleWithNoSalon = [SELECT Id, Name, Salon__c FROM Vehicle__c WHERE Id =: vehicleToAddId];
+               	vehicleWithNoSalon.Salon__c = offerToAdd.Salon__c;
+               	update vehicleWithNoSalon;
+                }
+            }
+        }
+    }
+    
+    
     /**
      * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
      * @date 29/12/2021
