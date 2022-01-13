@@ -6,15 +6,15 @@
 
 trigger Create_Offer on Offer__c (before insert, before update, after insert) {
     if(trigger.isBefore){
-      if(trigger.isInsert || trigger.isUpdate){
-          CreateOffer_Handler.checkAv(Trigger.New);
-        }
-     }
-     if(trigger.isAfter && trigger.isInsert){
-         List <Id> offers = new List<Id>();
-         for(Offer__c record:Trigger.new){  
-             offers.add(record.Id);
+        if(trigger.isInsert || trigger.isUpdate){
+            CreateOffer_Handler.checkAv(Trigger.New);
+            for(Offer__c offerToAdd : Trigger.New){
+               Id vehicleToAddId = offerToAdd.Vehicle__c;
+               Vehicle__c vehicleWithNoSalon = [SELECT Id, Name, Salon__c FROM Vehicle__c WHERE Id =: vehicleToAddId];
+               vehicleWithNoSalon.Salon__c = offerToAdd.Salon__c;
+               update vehicleWithNoSalon;
             }
-            OfferEmail.email(offers);
         }
     }
+}
+  
