@@ -12,9 +12,11 @@ public class VehicleHandler {
      * @param inDeletedVehicles - trigger entry list
 	 */
     public static void deleteTelemetry(List<Vehicle__c> inDeletedVehicles){
-        if(inDeletedVehicles!=null || !inDeletedVehicles.isEmpty()){
-            List<Telemetry__c> telemetries = [SELECT Id FROM Telemetry__c WHERE Vehicle__c IN :inDeletedVehicles];
-            delete telemetries;
+        if(inDeletedVehicles==null || inDeletedVehicles.isEmpty()){
+            return;
+        }
+        List<Telemetry__c> telemetries = [SELECT Id FROM Telemetry__c WHERE Vehicle__c IN :inDeletedVehicles];
+        delete telemetries;
         }
     }
 }
