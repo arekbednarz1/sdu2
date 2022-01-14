@@ -19,7 +19,7 @@ public class CreateOffer_Handler {
         List<Vehicle__c>updatedSalonsList = new List<Vehicle__c>();
         if(inOffers==null || inOffers.isEmpty()){
             return;
-        }else{
+        }
             for(Offer__c offerToAdd : inOffers){
                 if(Constants.PHYSICAL_OFFER.equals(offerToAdd.Offer_type__c)){
                     Id vehicleId = offerToAdd.Vehicle__c;
@@ -34,7 +34,7 @@ public class CreateOffer_Handler {
             }
             update updatedSalonsList;
         }
-    }
+    
     
     
     
@@ -53,7 +53,8 @@ public class CreateOffer_Handler {
             return;
         }
         
-        else{
+        
+        
             for (Offer__c offer : inOffers) {  
                 if (Constants.PHYSICAL_OFFER.equals(offer.Offer_type__c)){    
                     vehiclesWithPhysicalOffer.add(offer.Vehicle__c);    
@@ -77,4 +78,4 @@ public class CreateOffer_Handler {
             } 
         }
     }    
-}
+

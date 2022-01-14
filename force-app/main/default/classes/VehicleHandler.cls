@@ -14,9 +14,11 @@ public class VehicleHandler {
     public static void deleteTelemetry(List<Vehicle__c> inDeletedVehicles){
         if(inDeletedVehicles==null || inDeletedVehicles.isEmpty()){
             return;
-        }
-        List<Telemetry__c> telemetries = [SELECT Id FROM Telemetry__c WHERE Vehicle__c IN :inDeletedVehicles];
-        delete telemetries;
+        }else{
+            List<Telemetry__c> telemetries = [SELECT Id FROM Telemetry__c WHERE Vehicle__c IN :inDeletedVehicles];
+            delete telemetries;
         }
     }
 }
+
+
