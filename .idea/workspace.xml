@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9011818a-bae5-41d0-8976-e95e056d6a64" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/force-app/main/default/classes/Constants.cls" beforeDir="false" afterPath="$PROJECT_DIR$/force-app/main/default/classes/Constants.cls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/force-app/main/default/classes/CreateOffer_Handler.cls" beforeDir="false" afterPath="$PROJECT_DIR$/force-app/main/default/classes/CreateOffer_Handler.cls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/force-app/main/default/triggers/Create_Offer.trigger" beforeDir="false" afterPath="$PROJECT_DIR$/force-app/main/default/triggers/Create_Offer.trigger" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/force-app/main/default/triggers/DeleteVehicle.trigger" beforeDir="false" afterPath="$PROJECT_DIR$/force-app/main/default/triggers/DeleteVehicle.trigger" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/force-app/main/default/triggers/SalonUpdate.trigger" beforeDir="false" afterPath="$PROJECT_DIR$/force-app/main/default/triggers/SalonUpdate.trigger" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IlluminatedCloudWorkspaceSettings">
+    <option name="moduleWorkspaceSettings">
+      <map>
+        <entry key="sdu2">
+          <value>
+            <ModuleWorkspaceSettings>
+              <option name="moduleContentsLastModified" value="1642414676642" />
+            </ModuleWorkspaceSettings>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="23oyEIspvmeBmwJMZSrJyEupeJs" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9011818a-bae5-41d0-8976-e95e056d6a64" name="Changes" comment="" />
+      <created>1642414626283</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1642414626283</updated>
+      <workItem from="1642414633019" duration="41000" />
+      <workItem from="1642414677360" duration="228000" />
+      <workItem from="1642414932569" duration="93000" />
+      <workItem from="1642416903849" duration="383000" />
+      <workItem from="1642421831373" duration="6000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,68 +1,75 @@
 /**
  * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
- * @date 10/01/2022
- * @description test class for NewCaseWhenSalonWasClosed class.
+ * @date 17/01/2022
+ * @description Test class for NewCaseSender, NewCaseWhenSalonWasClosed classes.
  */
 
 @isTest
 public class NewCaseWhenChangeSalonStatusTest {
+  /**
+   * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
+   * @date 17/01/2022
+   * @description helping method to create closed salons .
+   */
+  public static List<Salon__c> createClosed() {
+    Salon__c salon = TestCreateRecords.addSalons(1)[0];
+    salon.Salon_status__c = Constants.SALON_CLOSED_STATUS;
+    update salon;
+    List<Salon__c> salons = new List<Salon__c>();
+    salons.add(salon);
+    return salons;
+  }
 
-    public static List<Salon__c> createClosed(){
-        Account account = new Account(Name='TEST');
-        insert account;
-        Salon__c salon = TestCreateRecords.addSalons(1)[0];
-        salon.Account__c=account.Id;
-        salon.Salon_status__c='close';
-        insert salon;
-        List<Salon__c> salons = new List<Salon__c>();
-        salons.add(salon);
-        return salons;
-    } 
-    
-    @isTest
-    static void testMethodWhenResponseIsCorrect(){
-        MockNewCaseWhenChangeSalonStatusTest.setTestMockResponse(201);
-        List<Salon__c> salons = createClosed();
-        
-        NewCaseWhenSalonWasClosed nc = new NewCaseWhenSalonWasClosed(salons);
-        List<Case> cases = nc.getCases();
-        
-        Test.startTest();
-        HttpResponse response = nc.sendReq(cases);
-        id jobId = System.enqueueJob(nc);
-        Test.stopTest();
+  /**
+   * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
+   * @date 17/01/2022
+   * @description test method to check status when response is correct.
+   */
+  @isTest
+  static void testMethodWhenResponseIsCorrect() {
+    MockNewCaseWhenChangeSalonStatusTest.setTestMockResponse(201);
+    List<Salon__c> salons = createClosed();
+    NewCaseWhenSalonWasClosed nc = new NewCaseWhenSalonWasClosed(salons);
+    List<Case> cases = nc.getCases();
+    NewCaseSender caseSender = new NewCaseSender(cases);
 
-        System.assert(jobId != null);
-        String contentType = response.getHeader('Content-Type');
-        System.assert(contentType == 'application/json');
-        for(Case c : cases){
-            System.assert(c.Status.equals('Closed'));
-        }
-        
-        System.assertEquals(201, response.getStatusCode());
+    Test.startTest();
+    HttpResponse response = caseSender.sendRequest();
+    id jobId = System.enqueueJob(caseSender);
+    Test.stopTest();
+
+    System.assert(jobId != null);
+    String contentType = response.getHeader(Constants.CONTENT_TYPE);
+    System.assert(contentType == Constants.JSON_TYPE);
+    for (Case newCase : cases) {
+      System.assert(newCase.Status.equals(Constants.CASE_CLOSED_STATUS));
     }
- 
-    @isTest 
-    static void testMethodWhenFaild(){
-         MockNewCaseWhenChangeSalonStatusTest.setTestMockResponse(123);
-        List<Salon__c> salons = createClosed();
-        
-        NewCaseWhenSalonWasClosed nc = new NewCaseWhenSalonWasClosed(salons);
-        List<Case> cases = nc.getCases();
-        
-        Test.startTest();
-        HttpResponse response = nc.sendReq(cases);
-        Test.stopTest();
+    System.assertEquals(201, response.getStatusCode());
+  }
 
-        
-        String contentType = response.getHeader('Content-Type');
-        System.assert(contentType == 'application/json');
-        for(Case cs : cases){
-            System.debug(cs.Status);
-            System.debug(response.getStatusCode());
-            System.assert(cs.Status.equals('Faild'));
-            System.assertEquals(123, response.getStatusCode());
-        }
+  /**
+   * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
+   * @date 17/01/2022
+   * @description test method to check status when response faild.
+   */
+  @isTest
+  static void testMethodWhenFaild() {
+    MockNewCaseWhenChangeSalonStatusTest.setTestMockResponse(123);
+    List<Salon__c> salons = createClosed();
 
+    NewCaseWhenSalonWasClosed nc = new NewCaseWhenSalonWasClosed(salons);
+    List<Case> cases = nc.getCases();
+    NewCaseSender caseSender = new NewCaseSender(cases);
+
+    Test.startTest();
+    HttpResponse response = caseSender.sendRequest();
+    Test.stopTest();
+
+    String contentType = response.getHeader(Constants.CONTENT_TYPE);
+    System.assert(contentType == Constants.JSON_TYPE);
+    for (Case case : cases) {
+      System.assert(case.Status.equals(Constants.CASE_FAILD_STATUS));
+      System.assertEquals(123, response.getStatusCode());
     }
+  }
 }
