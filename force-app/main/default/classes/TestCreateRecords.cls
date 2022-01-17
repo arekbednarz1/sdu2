@@ -5,8 +5,7 @@
  */
 @isTest 
 public class TestCreateRecords {
-    
-    
+     
    /**
     * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
     * @date 13.01.2022
@@ -17,8 +16,8 @@ public class TestCreateRecords {
         List<Account> testAccounts = [SELECT Id FROM Account WHERE Name = :Constants.TEST_ACCOUNT];
         if(testAccounts.size() == 0){
             Account testAccount = new Account(Name = Constants.TEST_ACCOUNT);
-            testAccounts = new List<Account>{testAccount};     
-                }
+            testAccounts = new List<Account>{testAccount};            
+        }
         insert testAccounts;
         return testAccounts;
     }

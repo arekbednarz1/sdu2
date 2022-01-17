@@ -9,7 +9,6 @@ trigger Create_Offer on Offer__c (before insert, before update, after insert) {
         if(trigger.isInsert || trigger.isUpdate){          
             CreateOffer_Handler.checkAv(Trigger.New);
             CreateOffer_Handler.updateSalonOffer(Trigger.New);
-
         }
     }
 }
