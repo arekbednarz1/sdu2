@@ -5,7 +5,6 @@
  */
 
 trigger DeleteVehicle on Vehicle__c (before delete) {
-
     if (trigger.isBefore){
         if(trigger.isDelete){
             VehicleHandler.deleteTelemetry(Trigger.Old);

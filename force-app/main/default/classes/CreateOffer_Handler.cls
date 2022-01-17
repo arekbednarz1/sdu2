@@ -6,41 +6,66 @@
 
 
 public class CreateOffer_Handler {
+    /**
+     * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
+     * @date 29/12/2021
+     * @description method adding Salon__c to Vehicle__c with no salon .
+     * @param inOffers - entry list from trigger
+     */
 
-
+    public static void updateSalonOffer(List<Offer__c> inOffers){
+        List<Id>updateList= new List<Id>();
+        Map<Id,String> mapWithValuesToUpdateSalons = new Map<Id,String>();
+        List<Vehicle__c>updatedSalonsList = new List<Vehicle__c>();
+        if(inOffers==null || inOffers.isEmpty()){
+            return;
+        }    
+        for(Offer__c offerToAdd : inOffers){
+            if(Constants.PHYSICAL_OFFER.equals(offerToAdd.Offer_type__c)){
+                Id vehicleId = offerToAdd.Vehicle__c;
+                mapWithValuesToUpdateSalons.put(vehicleId,offerToAdd.Salon__c);
+                updateList.add(vehicleId); 
+            }   
+        }
+            
+        List<Vehicle__c> vehicleWithNoSalon = [SELECT Id,Salon__c FROM Vehicle__c WHERE Id IN: updateList];
+        for(Vehicle__c noSalonVehicle : vehicleWithNoSalon){
+            noSalonVehicle.Salon__c = mapWithValuesToUpdateSalons.get(noSalonVehicle.Id);
+            updatedSalonsList.add(noSalonVehicle);
+        }    
+        update updatedSalonsList;    
+    }
+    
     /**
      * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
      * @date 29/12/2021
      * @description validation for entering a physical offer. only 1 for 1 vehicle .
-     * @param offers - entry list from trigger
-     * @param vehicles - set of Id from Vehicle__c objects where Offer_type__c = physical
-     * @param carsNotExist - list of Vehicle__c with Salon__c objects where Vehicle__c equal one of vehicle record
+     * @param inOffers - entry list from trigger
      */
 
-     public static void checkAv(List<Offer__c> offers) {   
-        Set<Id> vehicles = new Set<Id>();
-        List <Salon__c> salons = [SELECT Name from Salon__c];
-           if(offers.size()>0 && salons.size()>0){
-           for (Offer__c offer : offers) {
-               if (offer.Offer_type__c.equals('physical')) {
-                   vehicles.add(offer.Vehicle__c);
-               }
-           }
-            List<Vehicle__c> carsNotExist = [SELECT Id, Salon__c FROM Vehicle__c WHERE Id in :vehicles];
-               if(carsNotExist.size()>0){
-                for (Offer__c offer : offers) {
-                        for (Vehicle__c p : carsNotExist) {
-                            if (p.Id.equals(offer.Vehicle__c)) {
-                                for(Salon__c s  : salons){
-                                    if(!p.Salon__c.equals(offer.Salon__c)&& (s.Id).equals(p.Salon__c)) {
-                                        offer.addError('Vehicle is available in ' + s.Name + ' salon');
-                                        break;   
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    public static void checkAv(List<Offer__c> inOffers) {
+        Set<Id> vehiclesWithPhysicalOffer = new Set<Id>();
+     	List<Offer__c> physicalOffers = new List<Offer__c>();
+        if(inOffers==null || inOffers.isEmpty()){
+            return;
+        }    
+        for (Offer__c offer : inOffers) {      
+            if (Constants.PHYSICAL_OFFER.equals(offer.Offer_type__c)){        
+                vehiclesWithPhysicalOffer.add(offer.Vehicle__c);
+                physicalOffers.add(offer);    
+            }       
+        }    
+        Map<Id,String> carsSalonsPhysicalMap = new Map<Id,String>();
+        List<Offer__c> allPhysicalOffers = [SELECT Vehicle__c, Salon__r.Name FROM Offer__c WHERE Vehicle__c IN :vehiclesWithPhysicalOffer];    
+        for (Offer__c offer : allPhysicalOffers){
+           carsSalonsPhysicalMap.put(offer.Vehicle__c,offer.Salon__r.Name);
         }
-    }
+        for(Offer__c offer  : physicalOffers){
+            if(carsSalonsPhysicalmap.containsKey(offer.Vehicle__c)) {    
+                String salonWithOffer = carsSalonsPhysicalMap.get(offer.Vehicle__c);
+                offer.addError('Vehicle is available in ' +salonWithOffer+ ' salon');                        
+            }      
+        }     
+    }    
+}    
+
