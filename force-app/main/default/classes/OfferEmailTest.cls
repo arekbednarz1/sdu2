@@ -28,12 +28,12 @@ public class OfferEmailTest {
     }
 
     Test.startTest();
-    Database.SaveResult[] result = database.insert(offers);
+    Database.SaveResult[] insertResults = database.insert(offers);
     Integer methodEmailCall = Limits.getFutureCalls();
     Test.stopTest();
 
-    for (Database.SaveResult res : result) {
-      System.assert(res.isSuccess());
+    for (Database.SaveResult result : insertResults) {
+      System.assert(result.isSuccess());
     }
     System.assertEquals(1, methodEmailCall);
   }
