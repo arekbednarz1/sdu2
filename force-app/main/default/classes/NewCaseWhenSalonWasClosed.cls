@@ -22,10 +22,30 @@ public class NewCaseWhenSalonWasClosed implements Queueable, Database.AllowsCall
       );
     }
     insert cases;
-    NewCaseSender request = new NewCaseSender(cases);
+    sendRequest(cases);
   }
 
   public List<Case> getCases() {
     return cases;
+  }
+  @TestVisible
+  private HttpResponse sendRequest(List<Case> caseToSend) {
+    Http server = new Http();
+    HttpRequest request = new HttpRequest();
+    request.setEndpoint(Constants.CASE_ENDPOINT);
+    request.setMethod(Constants.CASE_METHOD);
+    request.setBody(JSON.serialize(caseToSend));
+    HttpResponse response = server.send(request);
+    if (response.getStatusCode() == 201) {
+      for (Case newCase : caseToSend) {
+        newCase.Status = Constants.CASE_CLOSED_STATUS;
+      }
+    } else {
+      for (Case newCase : caseToSend) {
+        newCase.Status = Constants.CASE_CLOSED_STATUS;
+      }
+      System.debug(LoggingLevel.ERROR, Constants.CONNECTION_FAILED_MESSAGE);
+    }
+    return response;
   }
 }

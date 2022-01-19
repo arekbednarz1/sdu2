@@ -16,6 +16,6 @@ trigger Create_Offer on Offer__c(before insert, before update, after insert) {
     for (Offer__c record : Trigger.new) {
       offers.add(record.Id);
     }
-    OfferEmail.email(offers);
+    OfferEmail.createEmail(offers);
   }
 }

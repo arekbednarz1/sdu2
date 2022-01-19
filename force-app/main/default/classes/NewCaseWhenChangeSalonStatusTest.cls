@@ -1,7 +1,7 @@
 /**
  * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
  * @date 17/01/2022
- * @description Test class for NewCaseSender, NewCaseWhenSalonWasClosed classes.
+ * @description Test class for NewCaseWhenSalonWasClosed class.
  */
 
 @isTest
@@ -28,21 +28,21 @@ public class NewCaseWhenChangeSalonStatusTest {
   @isTest
   static void testMethodWhenResponseIsCorrect() {
     MockNewCaseWhenChangeSalonStatusTest.setTestMockResponse(201);
-    List<Salon__c> salons = createClosed();
-    NewCaseWhenSalonWasClosed nc = new NewCaseWhenSalonWasClosed(salons);
-    List<Case> cases = nc.getCases();
-    NewCaseSender caseSender = new NewCaseSender(cases);
+    List<Salon__c> closedSalons = createClosed();
+
+    NewCaseWhenSalonWasClosed nc = new NewCaseWhenSalonWasClosed(closedSalons);
+    List<Case> casesToSend = nc.getCases();
 
     Test.startTest();
-    HttpResponse response = caseSender.sendRequest();
-    id jobId = System.enqueueJob(caseSender);
+    HttpResponse response = nc.sendRequest(casesToSend);
+    id jobId = System.enqueueJob(nc);
     Test.stopTest();
 
     System.assert(jobId != null);
     String contentType = response.getHeader(Constants.CONTENT_TYPE);
     System.assert(contentType == Constants.JSON_TYPE);
-    for (Case newCase : cases) {
-      System.assert(newCase.Status.equals(Constants.CASE_CLOSED_STATUS));
+    for (Case createdCase : casesToSend) {
+      System.assert(createdCase.Status.equals(Constants.CASE_CLOSED_STATUS));
     }
     System.assertEquals(201, response.getStatusCode());
   }
@@ -58,17 +58,16 @@ public class NewCaseWhenChangeSalonStatusTest {
     List<Salon__c> salons = createClosed();
 
     NewCaseWhenSalonWasClosed nc = new NewCaseWhenSalonWasClosed(salons);
-    List<Case> cases = nc.getCases();
-    NewCaseSender caseSender = new NewCaseSender(cases);
+    List<Case> casesToSend = nc.getCases();
 
     Test.startTest();
-    HttpResponse response = caseSender.sendRequest();
+    HttpResponse response = nc.sendRequest(casesToSend);
     Test.stopTest();
 
     String contentType = response.getHeader(Constants.CONTENT_TYPE);
     System.assert(contentType == Constants.JSON_TYPE);
-    for (Case case : cases) {
-      System.assert(case.Status.equals(Constants.CASE_FAILD_STATUS));
+    for (Case createdCase : casesToSend) {
+      System.assert(createdCase.Status.equals(Constants.CASE_FAILD_STATUS));
       System.assertEquals(123, response.getStatusCode());
     }
   }
