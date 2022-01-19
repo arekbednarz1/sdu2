@@ -1,18 +1,25 @@
 /**
  * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
- * @date 10/01/2022
+ * @date 31/12/2021
  * @description Handler class for SalonUpdate trigger.
  */
 public class SalonHandler {
-
-    public static void checkSalonStatus(List<Salon__c> salons){
-        List<Salon__c> closedSalons = new List<Salon__c>();
-        for(Salon__c sal : salons){
-            if(sal.Salon_status__c =='close'){
-                closedSalons.add(sal);
-            }
-        }
-        NewCaseWhenSalonWasClosed req = new NewCaseWhenSalonWasClosed(closedSalons);
-        System.enqueueJob(req);
+  /**
+   * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
+   * @date 30/12/2021
+   * @description method checks salon status
+   */
+  public static void checkSalonStatus(List<Salon__c> inSalons) {
+    List<Salon__c> closedSalons = new List<Salon__c>();
+    for (Salon__c salon : inSalons) {
+      if (salon.Salon_status__c == Constants.SALON_CLOSED_STATUS) {
+        closedSalons.add(salon);
+      }
     }
+    if (closedSalons == null || closedSalons.isEmpty()) {
+      return;
+    }
+    NewCaseWhenSalonWasClosed req = new NewCaseWhenSalonWasClosed(closedSalons);
+    System.enqueueJob(req);
+  }
 }
