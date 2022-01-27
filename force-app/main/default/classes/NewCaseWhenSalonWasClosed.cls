@@ -5,14 +5,15 @@
  */
 
 public class NewCaseWhenSalonWasClosed implements Queueable, Database.AllowsCallouts {
-  private List<Case> cases = new List<Case>();
   private List<Salon__c> salons;
+  private List<Case> cases;
 
   public NewCaseWhenSalonWasClosed(List<Salon__c> salons) {
     this.salons = salons;
   }
 
   public void execute(QueueableContext context) {
+    cases = new List<Case>();
     for (Salon__c salon : salons) {
       cases.add(
         new Case(
@@ -22,30 +23,6 @@ public class NewCaseWhenSalonWasClosed implements Queueable, Database.AllowsCall
       );
     }
     insert cases;
-    sendRequest(cases);
-  }
-
-  public List<Case> getCases() {
-    return cases;
-  }
-  @TestVisible
-  private HttpResponse sendRequest(List<Case> caseToSend) {
-    Http server = new Http();
-    HttpRequest request = new HttpRequest();
-    request.setEndpoint(Constants.CASE_ENDPOINT);
-    request.setMethod(Constants.CASE_METHOD);
-    request.setBody(JSON.serialize(caseToSend));
-    HttpResponse response = server.send(request);
-    if (response.getStatusCode() == 201) {
-      for (Case newCase : caseToSend) {
-        newCase.Status = Constants.CASE_CLOSED_STATUS;
-      }
-    } else {
-      for (Case newCase : caseToSend) {
-        newCase.Status = Constants.CASE_CLOSED_STATUS;
-      }
-      System.debug(LoggingLevel.ERROR, Constants.CONNECTION_FAILED_MESSAGE);
-    }
-    return response;
+    NewCaseSender sender = new NewCaseSender(cases);
   }
 }
