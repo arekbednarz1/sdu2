@@ -11,13 +11,15 @@ public class SalonHandler {
    */
   public static void checkSalonStatus(List<Salon__c> inSalons) {
     List<Salon__c> closedSalons = new List<Salon__c>();
-    for (Salon__c salon : inSalons) {
-      if (salon.Salon_status__c == Constants.SALON_CLOSED_STATUS) {
-        closedSalons.add(salon);
+    if (inSalons != null || !closedSalons.isEmpty()) {
+      for (Salon__c salon : inSalons) {
+        if (salon.Salon_status__c == Constants.SALON_CLOSED_STATUS) {
+          closedSalons.add(salon);
+        }
       }
-    }
-    if (closedSalons == null || closedSalons.isEmpty()) {
-      return;
+      if (closedSalons == null || closedSalons.isEmpty()) {
+        return;
+      }
     }
     NewCaseWhenSalonWasClosed req = new NewCaseWhenSalonWasClosed(closedSalons);
     System.enqueueJob(req);

@@ -1,11 +1,17 @@
 /**
  * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
- * @date 10/01/2021
+ * @date 10/01/2022
  * @description Test class fo DeleteTelemetrySchedule class.
  */
 
 @isTest
 public class TelemetryScheduleTest {
+  /**
+   * @author Arkadiusz Bednarz <arkadiusz.bednarz@accenture.com>
+   * @date 31/01/2022
+   * @description testing schedule method to delete telemetries.
+   */
+
   @isTest
   static void runScheduler() {
     Test.startTest();
