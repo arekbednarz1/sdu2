@@ -1,0 +1,109 @@
+<template>
+  <lightning-card
+    variant="narrow"
+    icon-name="standard:account"
+    title="Innovative Car Manager"
+  >
+    <div class="slds-grid slds-wrap">
+      <div class="slds-size_1-of-3">
+        <div class="slds-text-align_left slds-m-around_x-small">
+          <template if:false={allSalons}>
+            <lightning-button
+              label="All Salons"
+              variant="brand"
+              style="margin: 10px 5px"
+              onclick={handleAllSalons}
+            ></lightning-button>
+          </template>
+          <template if:false={allVehicles}>
+            <lightning-button
+              label="All Vehicles"
+              variant="brand"
+              style="margin: 10px 5px"
+              onclick={handleAllVehicles}
+            ></lightning-button>
+          </template>
+          <template if:false={showAccounts}>
+            <lightning-button
+              label="All Accounts"
+              variant="brand"
+              style="margin: 10px 5px"
+              onclick={handleAllAccounts}
+            ></lightning-button>
+          </template>
+        </div>
+      </div>
+      <div class="slds-size_2-of-3">
+        <div class="slds-text-align_center slds-m-around_x-small">
+          <template if:true={showAccounts}>
+            <div>
+              <lightning-input
+                type="search"
+                label="SearchAccount"
+                onchange={handleInputChange}
+              ></lightning-input>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+    <div class="slds-card__body_inner">
+      <template if:true={showAccounts}>
+        <lightning-card>
+          <template if:true={accounts.data}>
+            <lightning-datatable
+              key-field="Id"
+              data={accounts.data}
+              columns={accounts_columns}
+              hide-checkbox-column="true"
+              onrowaction={handleAccountAction}
+            >
+            </lightning-datatable>
+          </template>
+        </lightning-card>
+      </template>
+
+      <template if:true={showSalons}>
+        <lightning-card>
+          <template if:true={salons.data}>
+            <lightning-datatable
+              key-field="Id"
+              data={salons.data}
+              columns={salons_columns}
+              hide-checkbox-column="true"
+              onrowaction={handleSalonAction}
+            >
+            </lightning-datatable>
+          </template>
+        </lightning-card>
+      </template>
+
+      <template if:true={showVehicles}>
+        <lightning-card>
+          <template if:true={vehicles.data}>
+            <lightning-datatable
+              key-field="Id"
+              data={vehicles.data}
+              columns={vehicles_columns}
+              hide-checkbox-column="true"
+              onrowaction={handleVehicleAction}
+            >
+            </lightning-datatable>
+          </template>
+        </lightning-card>
+      </template>
+
+      <template if:false={showAccounts}>
+        <lightning-button
+          label="Go back"
+          onclick={handleBackClick}
+          variant="destructive"
+        ></lightning-button>
+      </template>
+
+      <template if:true={error}>
+        <div class="slds-text-color_error">An error while loading list</div>
+      </template>
+    </div>
+  </lightning-card>
+</template>

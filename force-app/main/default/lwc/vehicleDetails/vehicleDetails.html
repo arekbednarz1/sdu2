@@ -1,0 +1,102 @@
+<template>
+  <template if:true={vehicle}>
+    <div class="slds-page-header slds-page-header_record-home">
+      <div class="slds-page-header__row">
+        <div class="slds-page-header__col-title">
+          <div class="slds-media">
+            <div class="slds-media__figure">
+              <span class="slds-icon_container slds-icon-standard-opportunity">
+                <svg
+                  class="slds-icon slds-page-header__icon"
+                  aria-hidden="true"
+                >
+                  <use
+                    xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"
+                  ></use>
+                </svg>
+              </span>
+            </div>
+            <div class="slds-media__body">
+              <div class="slds-page-header__name">
+                <div class="slds-page-header__name-title">
+                  <h1>
+                    <span>Vehicle Detail</span>
+                    <span
+                      class="slds-page-header__title slds-truncate"
+                      title="Acme - 1,200 Widgets"
+                      >{cardTitle}</span
+                    >
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slds-page-header__col-actions">
+          <div class="slds-page-header__controls">
+            <div class="slds-page-header__control">
+              <ul class="slds-button-group-list"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slds-page-header__row slds-page-header__row_gutters">
+        <div class="slds-page-header__col-details">
+          <ul class="slds-page-header__detail-row">
+            <li class="slds-page-header__detail-block">
+              <div class="slds-text-title slds-truncate" title="Name">Name</div>
+              <div
+                class="slds-truncate"
+                title="Description that demonstrates truncation with a long text field."
+              >
+                {vehicle.Name}
+              </div>
+            </li>
+            <li class="slds-page-header__detail-block">
+              <div class="slds-text-title slds-truncate" title="Field 4">
+                Brand
+              </div>
+              <div class="slds-truncate" title="Brand">{vehicle.Brand__c}</div>
+            </li>
+
+            <li class="slds-page-header__detail-block">
+              <div class="slds-text-title slds-truncate" title="Model">
+                Model
+              </div>
+              <div class="slds-truncate" title="Model">{vehicle.Model__c}</div>
+            </li>
+
+            <li class="slds-page-header__detail-block">
+              <div class="slds-text-title slds-truncate" title="Price">
+                Price
+              </div>
+              <div class="slds-truncate" title="Price">{vehicle.Price__c}</div>
+            </li>
+
+            <li class="slds-page-header__detail-block">
+              <div class="slds-text-title slds-truncate" title="Price">
+                Interested
+              </div>
+              <div class="slds-checkbox">
+                <input
+                  type="checkbox"
+                  name="options"
+                  id="checkbox-unique-id-120"
+                  value="checkbox-unique-id-120"
+                  checked={vehicle.Interested__c}
+                  onclick={handleInterestClick}
+                />
+                <label
+                  class="slds-checkbox__label"
+                  for="checkbox-unique-id-120"
+                >
+                  <span class="slds-checkbox_faux"></span>
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </template>
+</template>
